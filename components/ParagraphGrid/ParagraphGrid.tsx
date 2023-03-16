@@ -1,4 +1,4 @@
-import { Button, Container, Grid, Group, Pagination, Title } from "@mantine/core";
+import { Button, Container, Grid, Group, Pagination, ScrollArea, Title } from "@mantine/core";
 import { useDocumentTitle } from "@mantine/hooks";
 import { Paragraph } from "@prisma/client";
 import { IconArrowBack } from "@tabler/icons";
@@ -39,33 +39,35 @@ export default function ParagraphGrid({
   }
 
   return (
-    <Container my="8rem">
-      <Title>
-        {title} Page {page}
-      </Title>
-      <Group position="apart" my="2rem">
-        <Group>{titleAction}</Group>
-        <Button variant="subtle" onClick={() => router.back()} rightIcon={<IconArrowBack />}>
-          Back
-        </Button>
-      </Group>
-      <Grid my="md">
-        {paragraphs.map((paragraph) => {
-          return (
-            <Grid.Col xs={12} sm={4} lg={3} key={paragraph.id}>
-              <ParagraphCard
-                title={paragraph.title}
-                id={paragraph.id}
-                author={paragraph.author}
-                time={paragraph.time}
-              />
-            </Grid.Col>
-          );
-        })}
-      </Grid>
-      <Group position="center">
-        <Pagination total={totalPage} value={page} onChange={toPage} withControls withEdges />
-      </Group>
-    </Container>
+    <ScrollArea h="calc( 100vh - 56px )">
+      <Container my="2rem">
+        <Title>
+          {title} Page {page}
+        </Title>
+        <Group position="apart">
+          <Group>{titleAction}</Group>
+          <Button variant="subtle" onClick={() => router.back()} rightIcon={<IconArrowBack />}>
+            Back
+          </Button>
+        </Group>
+        <Grid my="md">
+          {paragraphs.map((paragraph) => {
+            return (
+              <Grid.Col xs={12} sm={4} lg={3} key={paragraph.id}>
+                <ParagraphCard
+                  title={paragraph.title}
+                  id={paragraph.id}
+                  author={paragraph.author}
+                  time={paragraph.time}
+                />
+              </Grid.Col>
+            );
+          })}
+        </Grid>
+        <Group position="center">
+          <Pagination total={totalPage} value={page} onChange={toPage} withControls withEdges />
+        </Group>
+      </Container>
+    </ScrollArea>
   );
 }

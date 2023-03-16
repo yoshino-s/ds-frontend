@@ -100,9 +100,9 @@ export default function StatisticPage({ data }: StatsGroupProps) {
     </div>
   ));
   return (
-    <Container my="7rem">
+    <Container my="2rem">
       <Title>Statistic</Title>
-      <Group position="apart" my="2rem">
+      <Group position="apart" mb="1rem">
         <div></div>
         <Button variant="subtle" onClick={() => router.back()} rightIcon={<IconArrowBack />}>
           Back

@@ -27,18 +27,7 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
 
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
         <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
-          <HeaderSearch
-            links={[
-              {
-                link: "/",
-                label: "Home",
-              },
-              {
-                link: "/statistic",
-                label: "Statistic",
-              },
-            ]}
-          />
+          <HeaderSearch />
           <Component {...pageProps} />
           <Notifications />
         </MantineProvider>

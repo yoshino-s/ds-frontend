@@ -1,6 +1,6 @@
-import { ActionIcon, createStyles, Group, Header, rem, TextInput } from "@mantine/core";
+import { ActionIcon, createStyles, Group, Header, rem, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { IconSearch } from "@tabler/icons";
+import { Icon123, IconHome, IconSearch } from "@tabler/icons";
 import { useRouter } from "next/router";
 
 const useStyles = createStyles((theme) => ({
@@ -14,18 +14,6 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-  },
-
-  links: {
-    [theme.fn.smallerThan("md")]: {
-      display: "none",
-    },
-  },
-
-  search: {
-    [theme.fn.smallerThan("xs")]: {
-      display: "none",
-    },
   },
 
   link: {
@@ -42,13 +30,14 @@ const useStyles = createStyles((theme) => ({
       backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
     },
   },
+  linkText: {
+    [theme.fn.smallerThan("sm")]: {
+      display: "none",
+    },
+  },
 }));
 
-interface HeaderSearchProps {
-  links: { link: string; label: string }[];
-}
-
-export function HeaderSearch({ links }: HeaderSearchProps) {
+export function HeaderSearch() {
   const { classes } = useStyles();
   const router = useRouter();
 
@@ -58,9 +47,23 @@ export function HeaderSearch({ links }: HeaderSearchProps) {
     },
   });
 
-  const items = links.map((link) => (
+  const items = [
+    {
+      link: "/",
+      label: "Home",
+      icon: <IconHome />,
+    },
+    {
+      link: "/statistic",
+      label: "Statistic",
+      icon: <Icon123 />,
+    },
+  ].map((link) => (
     <a key={link.label} href={link.link} className={classes.link}>
-      {link.label}
+      <Group>
+        {link.icon}
+        <Text className={classes.linkText}>{link.label}</Text>
+      </Group>
     </a>
   ));
 
@@ -72,17 +75,12 @@ export function HeaderSearch({ links }: HeaderSearchProps) {
   }
 
   return (
-    <Header height={56} className={classes.header} mb={120}>
+    <Header height={56} className={classes.header}>
       <div className={classes.inner}>
         <Group spacing={5}>{items}</Group>
         <form onSubmit={form.onSubmit(submit)}>
           <Group>
-            <TextInput
-              className={classes.search}
-              placeholder="Search"
-              required
-              {...form.getInputProps("search")}
-            />
+            <TextInput placeholder="Search" required {...form.getInputProps("search")} />
             <ActionIcon type="submit">
               <IconSearch />
             </ActionIcon>

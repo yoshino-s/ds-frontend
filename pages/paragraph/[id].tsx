@@ -24,8 +24,8 @@ export default function ParagraphPage({ paragraph }: { paragraph: Paragraph }) {
   const router = useRouter();
 
   return (
-    <ScrollArea h="100vh">
-      <Container my="7rem">
+    <ScrollArea h="calc( 100vh - 56px )">
+      <Container my="2rem">
         <Title mb="xl">{paragraph.title}</Title>
         <Group position="apart">
           <Group>

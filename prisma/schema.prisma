@@ -15,11 +15,11 @@ model Paragraph {
   cover    String?
   markdown Boolean?
   tags     String
-  time     DateTime @db.Date
+  time     DateTime @db.DateTime
   title    String
 
   @@index([author])
-  @@index([time])
+  @@index([time(order: desc)])
   @@index([title])
   @@fulltext([content, author, title, tags])
 }
