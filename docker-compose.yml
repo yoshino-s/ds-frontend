@@ -1,0 +1,9 @@
+version: "3"
+services:
+  ds-next:
+    build: .
+    container_name: ds-next
+    restart: always
+    ports:
+      - "9090:8080"
+    
