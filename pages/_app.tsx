@@ -5,6 +5,8 @@ import NextApp, { AppContext, AppProps } from "next/app";
 import Head from "next/head";
 import { useState } from "react";
 
+import { HeaderSearch } from "../components/Header/Header";
+
 export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps } = props;
   const [colorScheme, setColorScheme] = useState<ColorScheme>(props.colorScheme);
@@ -25,6 +27,18 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
 
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
         <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
+          <HeaderSearch
+            links={[
+              {
+                link: "/",
+                label: "Home",
+              },
+              {
+                link: "/statistic",
+                label: "Statistic",
+              },
+            ]}
+          />
           <Component {...pageProps} />
           <Notifications />
         </MantineProvider>

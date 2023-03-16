@@ -48,7 +48,7 @@ export default function ParagraphPage({ paragraph }: { paragraph: Paragraph }) {
           </Button>
         </Group>
         <Group mb="xl">
-          {paragraph.tags.map((tag) => (
+          {paragraph.tags.split(",").map((tag) => (
             <UnstyledButton
               key={tag}
               onClick={() =>

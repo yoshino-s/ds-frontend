@@ -52,7 +52,7 @@ export default function ParagraphGrid({
       <Grid my="md">
         {paragraphs.map((paragraph) => {
           return (
-            <Grid.Col span={4} key={paragraph.id}>
+            <Grid.Col xs={12} sm={4} lg={3} key={paragraph.id}>
               <ParagraphCard
                 title={paragraph.title}
                 id={paragraph.id}

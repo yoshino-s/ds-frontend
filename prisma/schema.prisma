@@ -1,19 +1,25 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
-  provider = "postgres"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model Paragraph {
   id       String   @id
   author   String
-  content  String
+  content  String   @db.LongText
   cover    String?
   markdown Boolean?
-  tags     String[]
+  tags     String
   time     DateTime @db.Date
   title    String
+
+  @@index([author])
+  @@index([time])
+  @@index([title])
+  @@fulltext([content, author, title, tags])
 }
