@@ -12,6 +12,10 @@
   },
   "cSpell.words": [
     "mantine",
-    "MINIO"
+    "MINIO",
+    "zincsearch"
+  ],
+  "i18n-ally.localesPaths": [
+    "src/locales"
   ]
 }

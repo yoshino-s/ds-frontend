@@ -1,0 +1,54 @@
+kind: pipeline
+type: docker
+name: Publish docker next
+
+clone:
+  depth: 1
+
+steps:
+  - name: Build
+    image: plugins/docker
+    pull: if-not-exists
+    settings:
+      dockerfile: docker/Dockerfile
+      context: .
+      repo: git.yoshino-s.xyz/ds/ds-ui
+      registry: git.yoshino-s.xyz
+      username: yoshino-s
+      password:
+        from_secret: GITEA_TOKEN
+      tags: next
+---
+kind: pipeline
+type: docker
+name: Release
+
+clone:
+  depth: 1
+
+steps:
+  - name: Publish
+    image: plugins/gitea-release
+    pull: if-not-exists
+    settings:
+      api_key:
+        from_secret: GITEA_TOKEN
+      base_url: https://git.yoshino-s.xyz
+  - name: Publish Tag
+    image: plugins/docker
+    pull: if-not-exists
+    settings:
+      dockerfile: docker/Dockerfile
+      context: .
+      repo: git.yoshino-s.xyz/ds/ds-ui
+      registry: git.yoshino-s.xyz
+      username: yoshino-s
+      password:
+        from_secret: GITEA_TOKEN
+      tags:
+        - ${DRONE_TAG}
+        - latest
+
+trigger:
+  event:
+    - tag
