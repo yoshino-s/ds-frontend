@@ -11,7 +11,10 @@ import {
 } from "@mantine/core";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { useContext, useEffect } from "react";
 import { useLoaderData } from "react-router";
+
+import { TitleContext } from "@/component/Header/Header";
 
 function stripStyles(content: string) {
   const element = document.createElement("div");
@@ -61,8 +64,13 @@ dayjs.extend(relativeTime);
 
 export default function ParagraphPage() {
   const { classes } = useStyles();
+  const [_, setTitle] = useContext(TitleContext);
 
   const paragraph = useLoaderData() as Paragraph;
+
+  useEffect(() => {
+    setTitle(paragraph.title);
+  }, [paragraph]);
 
   return (
     <ScrollArea h="calc( 100vh - 56px )">
