@@ -8,7 +8,7 @@ import {
   rem,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useDocumentTitle } from "@mantine/hooks";
+import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
 import { IconSearch, IconSettings } from "@tabler/icons-react";
 import { Dispatch, SetStateAction, createContext, useContext } from "react";
 import { useNavigate } from "react-router";
@@ -55,6 +55,7 @@ export const TitleContext = createContext<
 export function HeaderSearch() {
   const { classes } = useStyles();
   const [title, _] = useContext(TitleContext);
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   useDocumentTitle(title);
   const navigate = useNavigate();
@@ -77,10 +78,12 @@ export function HeaderSearch() {
           <Text weight={600} component="a" href="/">
             DS-Next
           </Text>
-          <Text weight={600} component="span">
-            {" | "}
-            {title}
-          </Text>
+          {!isMobile && (
+            <Text weight={600} component="span">
+              {" | "}
+              {title}
+            </Text>
+          )}
         </span>
         <Group>
           <form onSubmit={form.onSubmit(submit)}>

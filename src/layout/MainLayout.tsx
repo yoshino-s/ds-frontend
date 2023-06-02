@@ -28,8 +28,8 @@ export default function MainLayout() {
         <HeaderSearch />
         <Box className={classes.contentContainer}>
           <Suspense fallback={<Loading />}>
-            <ScrollArea h="100%">
-              <Container>
+            <ScrollArea h="100%" w="100vw">
+              <Container maw="100vw">
                 <Outlet />
               </Container>
             </ScrollArea>

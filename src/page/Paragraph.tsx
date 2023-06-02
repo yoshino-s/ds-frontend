@@ -2,7 +2,6 @@ import {
   Badge,
   Container,
   Group,
-  ScrollArea,
   Text,
   Title,
   TypographyStylesProvider,
@@ -73,46 +72,44 @@ export default function ParagraphPage() {
   }, [paragraph]);
 
   return (
-    <ScrollArea h="calc( 100vh - 56px )">
-      <Container my="2rem">
-        <Title mb="xl">{paragraph.title}</Title>
-        <Group position="apart">
-          <Group>
-            <Text c="dimmed"> {dayjs().to(dayjs(paragraph.time))}</Text>
-            <UnstyledButton
-              component="a"
-              href={`/author/${encodeURIComponent(
-                paragraph.author || "unknown"
-              )}`}
-            >
-              <Badge ml="1rem" radius="sm">
-                {paragraph.author}
-              </Badge>
-            </UnstyledButton>
-          </Group>
+    <Container py="2rem">
+      <Title mb="xl">{paragraph.title}</Title>
+      <Group position="apart">
+        <Group>
+          <Text c="dimmed"> {dayjs().to(dayjs(paragraph.time))}</Text>
+          <UnstyledButton
+            component="a"
+            href={`/author/${encodeURIComponent(
+              paragraph.author || "unknown"
+            )}`}
+          >
+            <Badge ml="1rem" radius="sm">
+              {paragraph.author}
+            </Badge>
+          </UnstyledButton>
         </Group>
-        <Group mb="xl">
-          {paragraph.tags?.map((tag) => (
-            <UnstyledButton
-              key={tag}
-              component="a"
-              href={`/tag/${encodeURIComponent(tag)}`}
-            >
-              <Badge fz="xs" variant="dot">
-                {tag}
-              </Badge>
-            </UnstyledButton>
-          ))}
-        </Group>
-        <TypographyStylesProvider>
-          <div
-            className={classes.paragraph}
-            dangerouslySetInnerHTML={{
-              __html: stripStyles(paragraph.content),
-            }}
-          />
-        </TypographyStylesProvider>
-      </Container>
-    </ScrollArea>
+      </Group>
+      <Group mb="xl">
+        {paragraph.tags?.map((tag) => (
+          <UnstyledButton
+            key={tag}
+            component="a"
+            href={`/tag/${encodeURIComponent(tag)}`}
+          >
+            <Badge fz="xs" variant="dot">
+              {tag}
+            </Badge>
+          </UnstyledButton>
+        ))}
+      </Group>
+      <TypographyStylesProvider>
+        <div
+          className={classes.paragraph}
+          dangerouslySetInnerHTML={{
+            __html: stripStyles(paragraph.content),
+          }}
+        />
+      </TypographyStylesProvider>
+    </Container>
   );
 }
