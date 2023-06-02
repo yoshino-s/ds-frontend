@@ -1,0 +1,43 @@
+image: alpine:latest
+
+variables:
+  CS_DEFAULT_BRANCH_IMAGE: $CI_REGISTRY_IMAGE/$CI_DEFAULT_BRANCH:$CI_COMMIT_SHA
+
+  CI_DEBUG_TRACE: "true"
+
+  CACHE_TTL: 2190h0m0s # three months
+
+kaniko-build:
+  variables:
+    KANIKO_ARGS: "--cache=true --cache-repo $CI_REGISTRY_IMAGE --cache-ttl $CACHE_TTL"
+
+stages:
+  - build
+  - test
+  - review
+
+# NOTE: These links point to the latest templates for development in GitLab canonical project,
+# therefore the actual templates that were included for Auto DevOps pipelines
+# could be different from the contents in the links.
+# To view the actual templates, please replace `master` to the specific GitLab version when
+# the Auto DevOps pipeline started running e.g. `v13.0.2-ee`.
+include:
+  - template: Kaniko.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Kaniko.gitlab-ci.yml
+  - template: Jobs/Test.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Test.gitlab-ci.yml
+  - template: Jobs/Code-Quality.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Code-Quality.gitlab-ci.yml
+  - template: Jobs/Code-Intelligence.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Code-Intelligence.gitlab-ci.yml
+  - template: Jobs/Deploy.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Deploy.gitlab-ci.yml
+  - template: Jobs/Browser-Performance-Testing.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Browser-Performance-Testing.gitlab-ci.yml
+  - template: Jobs/Container-Scanning.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Container-Scanning.gitlab-ci.yml
+  - template: Jobs/Dependency-Scanning.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Dependency-Scanning.gitlab-ci.yml
+  - template: Jobs/License-Scanning.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/License-Scanning.gitlab-ci.yml
+  - template: Jobs/SAST.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/SAST.gitlab-ci.yml
+  - template: Jobs/Secret-Detection.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Secret-Detection.gitlab-ci.yml
+
+# The latest build job generates a dotenv report artifact with a CI_APPLICATION_TAG
+# that also includes the image digest. This configures Auto Deploy to receive
+# this artifact and use the updated CI_APPLICATION_TAG for deployments.
+.auto-deploy:
+  dependencies: [kaniko-build]
+dast_environment_deploy:
+  dependencies: [kaniko-build]
