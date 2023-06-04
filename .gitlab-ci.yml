@@ -1,11 +1,8 @@
 image: alpine:latest
 
 variables:
-  CS_DEFAULT_BRANCH_IMAGE: $CI_REGISTRY_IMAGE/$CI_DEFAULT_BRANCH:$CI_COMMIT_SHA
-
-  CI_DEBUG_TRACE: "true"
-
-  CACHE_TTL: 2190h0m0s # three months
+  #CI_DEBUG_TRACE: "true"
+  CACHE_TTL: 2190h0m0s
 
 kaniko-build:
   variables:

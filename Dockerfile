@@ -14,10 +14,10 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 RUN yarn build
- 
+
 FROM nginx:1.21-alpine AS runner
 
-COPY docker/default.conf /etc/nginx/conf.d/default.conf
+COPY default.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/dist /static
 
 EXPOSE 80
