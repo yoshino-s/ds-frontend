@@ -1,23 +1,17 @@
-image: alpine:latest
-
-variables:
-  #CI_DEBUG_TRACE: "true"
-  CACHE_TTL: 2190h0m0s
-
-kaniko-build:
-  variables:
-    KANIKO_ARGS: "--cache=true --cache-repo $CI_REGISTRY_IMAGE --cache-ttl $CACHE_TTL"
-
-stages:
-  - build
-  - test
-  - review
-
-# NOTE: These links point to the latest templates for development in GitLab canonical project,
-# therefore the actual templates that were included for Auto DevOps pipelines
-# could be different from the contents in the links.
-# To view the actual templates, please replace `master` to the specific GitLab version when
-# the Auto DevOps pipeline started running e.g. `v13.0.2-ee`.
-include:
-  - template: Kaniko.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Kaniko.gitlab-ci.yml
-  - template: Jobs/Test.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Test.gitlab-ci.yml
+# The Docker image that will be used to build your app
+image: node:lts
+# Functions that should be executed before the build script is run
+before_script:
+  - yarn install --frozen-lockfile --prod
+pages:
+  script:
+    - yarn build
+    - cp -r dist public
+  artifacts:
+    paths:
+      # The folder that contains the files to be exposed at the Page URL
+      - public
+  rules:
+    # This ensures that only pushes to the default branch will trigger
+    # a pages deploy
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
