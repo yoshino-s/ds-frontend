@@ -12,6 +12,7 @@ import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
 import { IconSearch, IconSettings } from "@tabler/icons-react";
 import { Dispatch, SetStateAction, createContext, useContext } from "react";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -75,7 +76,7 @@ export function HeaderSearch() {
     <Header height={56} className={classes.header}>
       <div className={classes.inner}>
         <span>
-          <Text weight={600} component="a" href="/">
+          <Text weight={600} component={Link} to="/">
             DS-Next
           </Text>
           {!isMobile && (
@@ -94,7 +95,7 @@ export function HeaderSearch() {
               required
             />
           </form>
-          <ActionIcon component="a" href="/settings">
+          <ActionIcon component={Link} to="/settings">
             <IconSettings />
           </ActionIcon>
         </Group>

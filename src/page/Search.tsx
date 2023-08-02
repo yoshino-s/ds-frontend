@@ -61,7 +61,7 @@ export default function SearchPage(props: SearchPageProps) {
         {paragraphs.map((paragraph) => {
           return (
             <Grid.Col xs={12} sm={6} key={paragraph._id}>
-              <ParagraphCard {...paragraph} />
+              <ParagraphCard {...paragraph} key={paragraph._id} />
             </Grid.Col>
           );
         })}

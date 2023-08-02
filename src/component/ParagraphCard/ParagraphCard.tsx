@@ -1,6 +1,7 @@
 import { Card, Group, Image, Text, createStyles } from "@mantine/core";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { Link } from "react-router-dom";
 
 dayjs.extend(relativeTime);
 
@@ -34,18 +35,18 @@ export function ParagraphCard({
   return (
     <Card withBorder radius="md" p={0} className={classes.card}>
       <Group noWrap spacing={0}>
-        <a href={url}>
+        <Link to={url}>
           {cover && <Image src={cover} height={140} width={140} />}
-        </a>
+        </Link>
         <div className={classes.body}>
           <Text transform="uppercase" color="dimmed" weight={700} size="xs">
             {tags.map((tag, index) => (
               <>
                 {index > 0 && " • "}
                 <Text
-                  component="a"
+                  component={Link}
                   key={index}
-                  href={`/tag/${encodeURIComponent(tag)}`}
+                  to={`/tag/${encodeURIComponent(tag)}`}
                 >
                   {tag}
                 </Text>
@@ -56,8 +57,8 @@ export function ParagraphCard({
             className={classes.title}
             mt="xs"
             mb="md"
-            component="a"
-            href={url}
+            component={Link}
+            to={url}
           >
             {title}
           </Text>
@@ -65,8 +66,8 @@ export function ParagraphCard({
             <Group spacing="xs" noWrap>
               <Text
                 size="xs"
-                component="a"
-                href={`/author/${encodeURIComponent(author)}`}
+                component={Link}
+                to={`/author/${encodeURIComponent(author)}`}
               >
                 {author}
               </Text>

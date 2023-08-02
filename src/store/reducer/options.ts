@@ -8,16 +8,16 @@ export interface OptionsState {
 const optionsSlice = createSlice({
   name: "stats",
   initialState: {
-    zincsearchUrl: "https://zincsearch.k8s.yoshino-s.xyz",
-    s3Url: "https://s3.yoshino-s.xyz",
+    zincsearchUrl: "https://zincsearch.yoshino-s.xyz",
+    s3Url: "https://minio-hdd.yoshino-s.xyz",
   } as OptionsState,
   reducers: {
     setZincsearchUrl: (state, action: PayloadAction<string | undefined>) => {
       state.zincsearchUrl =
-        action.payload ?? "https://zincsearch.k8s.yoshino-s.xyz";
+        action.payload ?? "https://zincsearch.yoshino-s.xyz";
     },
     setS3Url: (state, action: PayloadAction<string | undefined>) => {
-      state.s3Url = action.payload ?? "https://s3.yoshino-s.xyz";
+      state.s3Url = action.payload ?? "https://minio-hdd.yoshino-s.xyz";
     },
   },
 });

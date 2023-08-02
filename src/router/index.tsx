@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import { createBrowserRouter } from "react-router-dom";
+import { createHashRouter } from "react-router-dom";
 import { remark } from "remark";
 import remarkHtml from "remark-html";
 
@@ -16,7 +16,7 @@ const LoadingPage = lazy(async () => import("@/page/Loading"));
 const ParagraphPage = lazy(async () => import("@/page/Paragraph"));
 const SettingsPage = lazy(async () => import("@/page/Settings"));
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <MainLayout />,

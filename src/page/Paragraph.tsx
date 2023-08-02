@@ -14,6 +14,7 @@ import { useContext, useEffect } from "react";
 import { useLoaderData } from "react-router";
 
 import { TitleContext } from "@/component/Header/Header";
+import { Link } from "react-router-dom";
 
 function stripStyles(content: string) {
   const element = document.createElement("div");
@@ -78,8 +79,8 @@ export default function ParagraphPage() {
         <Group>
           <Text c="dimmed"> {dayjs().to(dayjs(paragraph.time))}</Text>
           <UnstyledButton
-            component="a"
-            href={`/author/${encodeURIComponent(
+            component={Link}
+            to={`/author/${encodeURIComponent(
               paragraph.author || "unknown"
             )}`}
           >
@@ -93,8 +94,8 @@ export default function ParagraphPage() {
         {paragraph.tags?.map((tag) => (
           <UnstyledButton
             key={tag}
-            component="a"
-            href={`/tag/${encodeURIComponent(tag)}`}
+            component={Link}
+            to={`/tag/${encodeURIComponent(tag)}`}
           >
             <Badge fz="xs" variant="dot">
               {tag}
