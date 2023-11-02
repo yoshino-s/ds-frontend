@@ -5,19 +5,21 @@ export interface OptionsState {
   s3Url: string;
 }
 
+const ZINCSEARCH_URL = "https://zincsearch.yoshino-s.xyz";
+const MINIO_URL = "https://minio-hdd.yoshino-s.xyz";
+
 const optionsSlice = createSlice({
   name: "stats",
   initialState: {
-    zincsearchUrl: "https://zincsearch.yoshino-s.xyz",
-    s3Url: "https://minio-hdd.yoshino-s.xyz",
+    zincsearchUrl: ZINCSEARCH_URL,
+    s3Url: MINIO_URL,
   } as OptionsState,
   reducers: {
     setZincsearchUrl: (state, action: PayloadAction<string | undefined>) => {
-      state.zincsearchUrl =
-        action.payload ?? "https://zincsearch.yoshino-s.xyz";
+      state.zincsearchUrl = action.payload ?? ZINCSEARCH_URL;
     },
     setS3Url: (state, action: PayloadAction<string | undefined>) => {
-      state.s3Url = action.payload ?? "https://minio-hdd.yoshino-s.xyz";
+      state.s3Url = action.payload ?? MINIO_URL;
     },
   },
 });

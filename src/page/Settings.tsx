@@ -1,12 +1,4 @@
-import {
-  Container,
-  createStyles,
-  Paper,
-  Table,
-  Text,
-  TextInput,
-  Title,
-} from "@mantine/core";
+import { Container, Paper, Table, Text, TextInput, Title } from "@mantine/core";
 import { ReactNode, useContext, useEffect } from "react";
 
 import { TitleContext } from "@/component/Header/Header";
@@ -15,18 +7,6 @@ import store from "@/store";
 import { useOptionsState } from "@/store/module/options";
 import { setS3Url, setZincsearchUrl } from "@/store/reducer/options";
 
-const useStyles = createStyles((theme) => ({
-  settingTable: {
-    tableLayout: "fixed",
-    "& thead": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[7]
-          : theme.colors.gray[3],
-    },
-  },
-}));
-
 interface SettingItem {
   title: string;
   description: string;
@@ -34,13 +14,12 @@ interface SettingItem {
 }
 
 export default function SettingsPage() {
-  const { classes } = useStyles();
   const [_, setTitle] = useContext(TitleContext);
   const { state: options } = useOptionsState();
 
   useEffect(() => {
     setTitle("Settings");
-  }, []);
+  }, [setTitle]);
 
   const settings: SettingItem[] = [
     {
@@ -81,30 +60,28 @@ export default function SettingsPage() {
       </Title>
       Customize the look and feel of your Coder deployment.
       <Paper my="xl" radius="md" withBorder style={{ overflow: "hidden" }}>
-        <Table verticalSpacing="lg" className={classes.settingTable} striped>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table verticalSpacing="lg" striped>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th>Name</Table.Th>
+              <Table.Th>Value</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
             {settings.map((setting) => (
-              <tr key={`${setting.title}`}>
-                <td>
-                  <div>
-                    <Text size="md" weight={500}>
-                      {setting.title}
-                    </Text>
-                    <Text color="dimmed" size="sm">
-                      {setting.description}
-                    </Text>
-                  </div>
-                </td>
-                <td>{setting.value}</td>
-              </tr>
+              <Table.Tr key={`${setting.title}`}>
+                <Table.Td>
+                  <Text size="md" fw={500}>
+                    {setting.title}
+                  </Text>
+                  <Text c="dimmed" size="sm">
+                    {setting.description}
+                  </Text>
+                </Table.Td>
+                <Table.Td>{setting.value}</Table.Td>
+              </Table.Tr>
             ))}
-          </tbody>
+          </Table.Tbody>
         </Table>
       </Paper>
     </Container>

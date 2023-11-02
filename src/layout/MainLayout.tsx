@@ -1,41 +1,103 @@
-import { Box, Container, Flex, ScrollArea, createStyles } from "@mantine/core";
-import { Suspense, useState } from "react";
-import { Outlet } from "react-router";
+import {
+  Affix,
+  AppShell,
+  Avatar,
+  Button,
+  Group,
+  Text,
+  TextInput,
+  Transition,
+  UnstyledButton,
+  rem,
+} from "@mantine/core";
+import { Suspense, useCallback, useState } from "react";
+import { Outlet, useNavigate } from "react-router";
 
-import { HeaderSearch, TitleContext } from "@/component/Header/Header";
+import { TitleContext } from "@/component/Header/Header";
 import Loading from "@/page/Loading";
 
-const useStyles = createStyles((theme) => ({
-  contentContainer: {
-    backgroundColor:
-      theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
-    width: "100vw",
-    overflow: "hidden",
-  },
-  rootContainer: {
-    height: "100vh",
-    width: "100vw",
-  },
-}));
+import { useForm } from "@mantine/form";
+import { useHeadroom, useWindowScroll } from "@mantine/hooks";
+import { IconArrowUp, IconSearch, IconSettings } from "@tabler/icons-react";
+import { Link } from "react-router-dom";
 
 export default function MainLayout() {
-  const { classes } = useStyles();
   const [title, setTitle] = useState("");
+  const pinned = useHeadroom({ fixedAt: 60 });
+
+  const [scroll, scrollTo] = useWindowScroll();
+
+  const navigate = useNavigate();
+
+  const form = useForm({
+    initialValues: {
+      search: "",
+    },
+  });
+
+  const search = useCallback(function submit({ search }: { search: string }) {
+    console.log(search);
+    navigate(`/search/${encodeURIComponent(search)}`);
+  }, []);
 
   return (
     <TitleContext.Provider value={[title, setTitle]}>
-      <Flex direction="column" className={classes.rootContainer}>
-        <HeaderSearch />
-        <Box className={classes.contentContainer}>
+      <AppShell
+        header={{ height: 60, collapsed: !pinned, offset: false }}
+        padding="md"
+        h="100vh"
+      >
+        <AppShell.Header>
+          <Group h="100%" justify="space-between" px="md">
+            <Group>
+              <Avatar fw={700} component={Link} to="/">
+                DS
+              </Avatar>
+              <Text size="lg" fw={700} ml="sm">
+                {title}
+              </Text>
+            </Group>
+
+            <Group>
+              <form onSubmit={form.onSubmit(search)}>
+                <TextInput
+                  placeholder="Search"
+                  {...form.getInputProps("search")}
+                  leftSection={
+                    <IconSearch
+                      style={{ width: rem(16), height: rem(16) }}
+                      stroke={1.5}
+                    />
+                  }
+                />
+              </form>
+              <UnstyledButton component={Link} to="/settings">
+                <IconSettings />
+              </UnstyledButton>
+            </Group>
+          </Group>
+        </AppShell.Header>
+        <AppShell.Main pt={`calc(${rem(60)} + var(--mantine-spacing-md))`}>
           <Suspense fallback={<Loading />}>
-            <ScrollArea h="100%" w="100vw">
-              <Container maw="100vw">
-                <Outlet />
-              </Container>
-            </ScrollArea>
+            <Outlet />
           </Suspense>
-        </Box>
-      </Flex>
+        </AppShell.Main>
+      </AppShell>
+      <Affix position={{ bottom: 20, right: 20 }}>
+        <Transition transition="slide-up" mounted={scroll.y > 0}>
+          {(transitionStyles) => (
+            <Button
+              leftSection={
+                <IconArrowUp style={{ width: rem(16), height: rem(16) }} />
+              }
+              style={transitionStyles}
+              onClick={() => scrollTo({ y: 0 })}
+            >
+              Scroll to top
+            </Button>
+          )}
+        </Transition>
+      </Affix>
     </TitleContext.Provider>
   );
 }

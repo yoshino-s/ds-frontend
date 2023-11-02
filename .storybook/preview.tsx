@@ -1,61 +1,50 @@
-import {
-  ActionIcon, Affix, ColorSchemeProvider, createEmotionCache, MantineProvider
-} from '@mantine/core';
-import { useHotkeys } from '@mantine/hooks';
-import React, { useState } from 'react';
+import { Container, MantineProvider } from "@mantine/core";
+import '@mantine/core/styles.css';
+import type { Preview } from "@storybook/react";
 import { useDarkMode } from 'storybook-dark-mode';
-import rtlPlugin from 'stylis-plugin-rtl';
 
-export const parameters = { 
-  layout: 'fullscreen' ,
-  actions: { argTypesRegex: "^on[A-Z].*" },
-  controls: {
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/,
+
+import i18n from "../src/i18n";
+
+import React, { Fragment } from "react";
+import { DocsContainer } from "./DocsContainer";
+
+const preview: Preview = {
+  parameters: {
+    actions: { argTypesRegex: "^on[A-Z].*" },
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/,
+      },
+    },
+    docs: {
+      container: DocsContainer,
+    },
+    i18n
+  },
+  globals: {
+    locale: 'en',
+    locales: {
+        en: 'English',
+        zh: '中文',
     },
   },
-};
-const rtlCache = createEmotionCache({ key: 'mantine-rtl', stylisPlugins: [rtlPlugin] });
+  decorators: [
+    (Story, runtime) => {
+      const isDark = useDarkMode();
 
-function ThemeWrapper(props: any) {
-  const [rtl, setRtl] = useState(false);
-  const toggleRtl = () => setRtl((r) => !r);
-  useHotkeys([['mod + L', toggleRtl]]);
-
-  return (
-    <ColorSchemeProvider colorScheme="light" toggleColorScheme={() => {}}>
-      <MantineProvider
-        theme={{
-          dir: rtl ? 'rtl' : 'ltr',
-          colorScheme: useDarkMode() ? 'dark' : 'light',
-          headings: { fontFamily: 'Greycliff CF, sans-serif' },
-        }}
-        emotionCache={rtl ? rtlCache : undefined}
-        withGlobalStyles
-        withNormalizeCSS
-      >
-        <Affix position={{ right: rtl ? 'unset' : 0, left: rtl ? 0 : 'unset', bottom: 0 }}>
-          <ActionIcon
-            onClick={toggleRtl}
-            variant="default"
-            style={{
-              borderBottom: 0,
-              borderRight: 0,
-              borderTopLeftRadius: 4,
-              width: 60,
-              fontWeight: 700,
-            }}
-            radius={0}
-            size={30}
-          >
-            {rtl ? 'RTL' : 'LTR'}
-          </ActionIcon>
-        </Affix>
-        <div dir={rtl ? 'rtl' : 'ltr'}>{props.children}</div>
+      const C = runtime.parameters.layout === 'fullscreen' ? Fragment : Container;
+      
+      return <MantineProvider withCssVariables forceColorScheme={
+        isDark ? 'dark' : 'light'
+      }>
+        <C>
+          <Story />
+        </C>
       </MantineProvider>
-    </ColorSchemeProvider>
-  );
-}
+    },
+  ]
+};
 
-export const decorators = [(renderStory: any) => <ThemeWrapper>{renderStory()}</ThemeWrapper>];
+export default preview;

@@ -5,15 +5,11 @@ import {
   Text,
   Title,
   TypographyStylesProvider,
-  UnstyledButton,
-  createStyles,
 } from "@mantine/core";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useContext, useEffect } from "react";
 import { useLoaderData } from "react-router";
 
-import { TitleContext } from "@/component/Header/Header";
 import { Link } from "react-router-dom";
 
 function stripStyles(content: string) {
@@ -54,58 +50,50 @@ function stripStyles(content: string) {
   return element.innerHTML;
 }
 
-const useStyles = createStyles(() => ({
-  paragraph: {
-    lineBreak: "anywhere",
-  },
-}));
-
 dayjs.extend(relativeTime);
 
 export default function ParagraphPage() {
-  const { classes } = useStyles();
-  const [_, setTitle] = useContext(TitleContext);
-
   const paragraph = useLoaderData() as Paragraph;
-
-  useEffect(() => {
-    setTitle(paragraph.title);
-  }, [paragraph]);
 
   return (
     <Container py="2rem">
       <Title mb="xl">{paragraph.title}</Title>
-      <Group position="apart">
+      <Group justify="space-between" align="center">
         <Group>
           <Text c="dimmed"> {dayjs().to(dayjs(paragraph.time))}</Text>
-          <UnstyledButton
+          <Badge
+            ml="1rem"
+            radius="sm"
             component={Link}
-            to={`/author/${encodeURIComponent(
-              paragraph.author || "unknown"
-            )}`}
+            to={`/author/${encodeURIComponent(paragraph.author || "unknown")}`}
           >
-            <Badge ml="1rem" radius="sm">
-              {paragraph.author}
-            </Badge>
-          </UnstyledButton>
+            {paragraph.author}
+          </Badge>
+        </Group>
+        <Group>
+          {paragraph.tags.map((tag, index) => (
+            <>
+              <Badge
+                component={Link}
+                key={index}
+                to={`/tag/${encodeURIComponent(tag)}`}
+              >
+                {tag}
+              </Badge>
+            </>
+          ))}
         </Group>
       </Group>
-      <Group mb="xl">
-        {paragraph.tags?.map((tag) => (
-          <UnstyledButton
-            key={tag}
-            component={Link}
-            to={`/tag/${encodeURIComponent(tag)}`}
-          >
-            <Badge fz="xs" variant="dot">
-              {tag}
-            </Badge>
-          </UnstyledButton>
-        ))}
-      </Group>
-      <TypographyStylesProvider>
+
+      <TypographyStylesProvider
+        style={{
+          paddingLeft: 0,
+        }}
+      >
         <div
-          className={classes.paragraph}
+          style={{
+            lineBreak: "anywhere",
+          }}
           dangerouslySetInnerHTML={{
             __html: stripStyles(paragraph.content),
           }}

@@ -7,11 +7,11 @@ export interface PaginationParams {
 }
 
 const api = axios.create({
+  withCredentials: false,
   auth: {
     username: "viewer",
     password: "publicviewer1",
   },
-  baseURL: "https://api.ourdomain.com",
 });
 
 api.interceptors.response.use(
@@ -36,17 +36,17 @@ api.interceptors.response.use(
         autoClose: true,
       });
     }
-  }
+  },
 );
 
 export class SearchApi {
   static async search(
     baseUrl: string,
-    query: ZincQueryForSDK
+    query: ZincQueryForSDK,
   ): Promise<SearchResponse> {
     const { data } = await api.post(
       new URL("/api/paragraph/_search", baseUrl).toString(),
-      query
+      query,
     );
     return data;
   }
@@ -61,7 +61,7 @@ export class SearchApi {
   }
   static async getParagraph(baseUrl: string, id: string) {
     const { data } = await api.get(
-      new URL(`/api/paragraph/_doc/${id}`, baseUrl).toString()
+      new URL(`/api/paragraph/_doc/${id}`, baseUrl).toString(),
     );
     return data._source;
   }

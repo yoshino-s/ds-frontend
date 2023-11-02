@@ -8,10 +8,8 @@ import MainLayout from "@/layout/MainLayout";
 import SearchPage from "@/page/Search";
 import store from "@/store";
 
-const NotFound = lazy(async () => ({
-  default: (await import("@/page/Exception")).NotFoundPage,
-}));
-const ErrorPage = lazy(() => import("@/page/Exception"));
+const NotFound = lazy(() => import("@/page/Exception/NotFound"));
+const ErrorPage = lazy(() => import("@/page/Exception/ErrorPage"));
 const LoadingPage = lazy(async () => import("@/page/Loading"));
 const ParagraphPage = lazy(async () => import("@/page/Paragraph"));
 const SettingsPage = lazy(async () => import("@/page/Settings"));
@@ -25,6 +23,9 @@ const router = createHashRouter([
       {
         path: "/",
         element: <SearchPage />,
+        loader() {
+          return {};
+        },
       },
       {
         path: "/settings",
@@ -85,9 +86,9 @@ const router = createHashRouter([
 
           const paragraph = await SearchApi.getParagraph(
             store.getState().options.zincsearchUrl,
-            id
+            id,
           ).then((p) =>
-            SearchApi.wrapParagraph(store.getState().options.s3Url, p)
+            SearchApi.wrapParagraph(store.getState().options.s3Url, p),
           );
 
           console.log(paragraph.markdown);

@@ -5,23 +5,31 @@
 # Container Scanning customization: https://docs.gitlab.com/ee/user/application_security/container_scanning/#customizing-the-container-scanning-settings
 # Note that environment variables can be set in several places
 # See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
-image: node:lts
-before_script:
-- yarn install --frozen-lockfile
+
 stages:
-- release
-- test
-- deploy
+  - release
+  - test
+  - deploy
+
 pages:
+  image: node:18.17.1
+  before_script:
+    - corepack enable
+    - corepack prepare pnpm@latest-8 --activate
+    - pnpm config set store-dir .pnpm-store
   script:
-  - yarn build
-  - mv dist public
+    - pnpm install # install dependencies
+  cache:
+    key:
+      files:
+        - pnpm-lock.yaml
+    paths:
+      - .pnpm-store
   artifacts:
     paths:
-    - public
+      - public
   rules:
-  - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+    - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
+
 include:
-- project: template/gitlabci-template
-  file: docker.gitlab-ci.yml
-- template: Security/Dependency-Scanning.gitlab-ci.yml
+  - template: Security/Dependency-Scanning.gitlab-ci.yml

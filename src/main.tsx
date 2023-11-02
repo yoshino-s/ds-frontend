@@ -2,16 +2,21 @@ import { Notifications } from "@mantine/notifications";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 
+import { MantineProvider, createTheme } from "@mantine/core";
 import App from "./App";
-import { ThemeProvider } from "./ThemeProvider";
 import store from "./store";
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+import "@mantine/core/styles.css";
+
+const theme = createTheme({
+  /** Put your mantine theme override here */
+});
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
-    <ThemeProvider>
+    <MantineProvider withCssVariables theme={theme}>
       <Notifications />
       <App />
-    </ThemeProvider>
-  </Provider>
+    </MantineProvider>
+  </Provider>,
 );

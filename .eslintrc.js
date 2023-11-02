@@ -1,36 +1,26 @@
+// eslint-disable-next-line no-undef
 module.exports = {
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    sourceType: "module",
-    project: "./tsconfig.json"
-  },
-  plugins: ["@typescript-eslint/eslint-plugin"],
-  extends: ["plugin:@typescript-eslint/eslint-recommended", "plugin:@typescript-eslint/recommended", "plugin:react/recommended", "plugin:import/recommended", "plugin:import/typescript", "plugin:prettier/recommended", "plugin:storybook/recommended"],
   root: true,
-  env: {
-    node: true,
-    jest: true
-  },
+  env: { browser: true, es2020: true },
+  extends: [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:prettier/recommended",
+    "plugin:storybook/recommended",
+  ],
+  ignorePatterns: ["dist", "src/gql/*"],
+  parser: "@typescript-eslint/parser",
+  plugins: ["react-refresh", "prettier"],
   rules: {
-    "prettier/prettier": ["error", {
-      singleQuote: false
-    }],
-    "@typescript-eslint/explicit-function-return-type": "off",
+    "react-refresh/only-export-components": [
+      "warn",
+      { allowConstantExport: true },
+    ],
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/quotes": [2, "double", "avoid-escape"],
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "destructuredArrayIgnorePattern": "^_" }],
-    "quotes": [2, "double", "avoid-escape"],
-    "semi": ["error", "always"],
-    "eol-last": ["error", "always"],
-    "react/react-in-jsx-scope": "off",
-    "import/no-unresolved": "off",
-    "import/order": ["error", {
-      "newlines-between": "always",
-      "alphabetize": {
-        "order": "asc"
-      }
-    }]
-  }
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+    ],
+  },
 };
