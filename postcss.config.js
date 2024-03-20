@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-undef
-module.exports = {
+export default {
   plugins: {
     "postcss-preset-mantine": {},
     "postcss-simple-vars": {

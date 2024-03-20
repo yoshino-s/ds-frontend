@@ -8,4 +8,5 @@ declare interface Paragraph {
   cover: string;
   time: string;
   tags: string[];
+  source_url?: string;
 }

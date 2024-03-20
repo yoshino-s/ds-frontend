@@ -1,5 +1,6 @@
 import { notifications } from "@mantine/notifications";
 import axios, { AxiosResponse } from "axios";
+import { merge } from "lodash";
 
 export interface PaginationParams {
   skip?: number;
@@ -63,6 +64,6 @@ export class SearchApi {
     const { data } = await api.get(
       new URL(`/api/paragraph/_doc/${id}`, baseUrl).toString(),
     );
-    return data._source;
+    return merge(data._source, { _id: data._id, '@timestamp': data['@timestamp'] });
   }
 }

@@ -4,15 +4,15 @@ import {
   SegmentedControl,
   useMantineColorScheme,
 } from "@mantine/core";
-import { IconMoon, IconSun } from "@tabler/icons-react";
+import { IconMoon, IconRobot, IconSun } from "@tabler/icons-react";
 
 export function ThemeSetting() {
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const { colorScheme, setColorScheme } = useMantineColorScheme();
 
   return (
     <SegmentedControl
       value={colorScheme}
-      onChange={toggleColorScheme}
+      onChange={v => setColorScheme(v as any)}
       data={[
         {
           value: "light",
@@ -20,6 +20,15 @@ export function ThemeSetting() {
             <Center>
               <IconSun size="1rem" stroke={1.5} />
               <Box ml={10}>Light</Box>
+            </Center>
+          ),
+        },
+        {
+          value: "auto",
+          label: (
+            <Center>
+              <IconRobot size="1rem" stroke={1.5} />
+              <Box ml={10}>Auto</Box>
             </Center>
           ),
         },

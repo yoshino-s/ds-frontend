@@ -57,23 +57,24 @@ export default function ParagraphPage() {
 
   return (
     <Container py="2rem">
-      <Title mb="xl">{paragraph.title}</Title>
-      <Group justify="space-between" align="center">
+      <Title >{paragraph.title}</Title>
+      <Group justify="space-between" align="center" my="md">
         <Group>
-          <Text c="dimmed"> {dayjs().to(dayjs(paragraph.time))}</Text>
-          <Badge
+          <Text size="sm" c="dimmed"> {dayjs().to(dayjs(paragraph["@timestamp"]))}</Text>
+          <Text
             ml="1rem"
-            radius="sm"
+            size="sm"
             component={Link}
             to={`/author/${encodeURIComponent(paragraph.author || "unknown")}`}
           >
             {paragraph.author}
-          </Badge>
+          </Text>
         </Group>
         <Group>
           {paragraph.tags.map((tag, index) => (
             <>
               <Badge
+                size="sm"
                 component={Link}
                 key={index}
                 to={`/tag/${encodeURIComponent(tag)}`}
@@ -82,6 +83,13 @@ export default function ParagraphPage() {
               </Badge>
             </>
           ))}
+          {
+            paragraph.source_url && (
+              <a href={paragraph.source_url}>
+                Goto Source
+              </a>
+            )
+          }
         </Group>
       </Group>
 

@@ -1,4 +1,4 @@
-import { Grid, Group } from "@mantine/core";
+import { Container, Grid, Group } from "@mantine/core";
 import { useContext, useEffect } from "react";
 import { useLoaderData, useLocation, useParams } from "react-router";
 
@@ -30,12 +30,12 @@ export default function SearchPage() {
     } else if (location.pathname.startsWith("/author/")) {
       action = `Author ${param.author}`;
     }
-    const title = `${action} Page 1`;
+    const title = `${action} Page ${page}`;
     setTitle(title);
   }, [page, location, param, setTitle]);
 
   return (
-    <div>
+    <Container>
       <Grid my="md">
         {paragraphs.map((paragraph) => {
           return (
@@ -46,6 +46,6 @@ export default function SearchPage() {
         })}
       </Grid>
       <Group justify="center">{pagination}</Group>
-    </div>
+    </Container>
   );
 }
