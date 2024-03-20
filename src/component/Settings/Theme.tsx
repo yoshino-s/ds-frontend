@@ -12,7 +12,7 @@ export function ThemeSetting() {
   return (
     <SegmentedControl
       value={colorScheme}
-      onChange={v => setColorScheme(v as any)}
+      onChange={(v) => setColorScheme(v as any)}
       data={[
         {
           value: "light",

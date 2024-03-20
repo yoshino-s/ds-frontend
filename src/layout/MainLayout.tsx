@@ -35,10 +35,13 @@ export default function MainLayout() {
     },
   });
 
-  const search = useCallback(function submit({ search }: { search: string }) {
-    console.log(search);
-    navigate(`/search/${encodeURIComponent(search)}`);
-  }, []);
+  const search = useCallback(
+    function submit({ search }: { search: string }) {
+      console.log(search);
+      navigate(`/search/${encodeURIComponent(search)}`);
+    },
+    [navigate],
+  );
 
   return (
     <TitleContext.Provider value={[title, setTitle]}>

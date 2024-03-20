@@ -7,6 +7,7 @@ import preferenceReducer from "./reducer/preference";
 const localStorageMiddleware: Middleware = ({ getState }) => {
   return (next) => (action) => {
     const result = next(action);
+    console.log(result);
     localStorage.setItem("applicationState", JSON.stringify(getState()));
     return result;
   };
@@ -25,7 +26,7 @@ const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(localStorageMiddleware),
-  preloadedState: reHydrateStore(),
+  preloadedState: reHydrateStore,
 });
 
 type AppState = ReturnType<typeof store.getState>;

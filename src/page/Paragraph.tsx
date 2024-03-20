@@ -57,10 +57,13 @@ export default function ParagraphPage() {
 
   return (
     <Container py="2rem">
-      <Title >{paragraph.title}</Title>
+      <Title>{paragraph.title}</Title>
       <Group justify="space-between" align="center" my="md">
         <Group>
-          <Text size="sm" c="dimmed"> {dayjs().to(dayjs(paragraph["@timestamp"]))}</Text>
+          <Text size="sm" c="dimmed">
+            {" "}
+            {dayjs().to(dayjs(paragraph["@timestamp"]))}
+          </Text>
           <Text
             ml="1rem"
             size="sm"
@@ -83,13 +86,9 @@ export default function ParagraphPage() {
               </Badge>
             </>
           ))}
-          {
-            paragraph.source_url && (
-              <a href={paragraph.source_url}>
-                Goto Source
-              </a>
-            )
-          }
+          {paragraph.source_url && (
+            <a href={paragraph.source_url}>Goto Source</a>
+          )}
         </Group>
       </Group>
 

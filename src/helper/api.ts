@@ -64,6 +64,9 @@ export class SearchApi {
     const { data } = await api.get(
       new URL(`/api/paragraph/_doc/${id}`, baseUrl).toString(),
     );
-    return merge(data._source, { _id: data._id, '@timestamp': data['@timestamp'] });
+    return merge(data._source, {
+      _id: data._id,
+      "@timestamp": data["@timestamp"],
+    });
   }
 }
