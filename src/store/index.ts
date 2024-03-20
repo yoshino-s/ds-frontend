@@ -2,7 +2,6 @@ import { configureStore, Middleware } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 import optionsReducer from "./reducer/options";
-import preferenceReducer from "./reducer/preference";
 
 const localStorageMiddleware: Middleware = ({ getState }) => {
   return (next) => (action) => {
@@ -14,6 +13,7 @@ const localStorageMiddleware: Middleware = ({ getState }) => {
 };
 
 const reHydrateStore = () => {
+  console.log("123");
   if (localStorage.getItem("applicationState") !== null) {
     return JSON.parse(localStorage.getItem("applicationState") ?? "{}"); // re-hydrate the store
   }
@@ -22,11 +22,10 @@ const reHydrateStore = () => {
 const store = configureStore({
   reducer: {
     options: optionsReducer,
-    preference: preferenceReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(localStorageMiddleware),
-  preloadedState: reHydrateStore,
+  preloadedState: reHydrateStore() as () => any,
 });
 
 type AppState = ReturnType<typeof store.getState>;
