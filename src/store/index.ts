@@ -13,7 +13,6 @@ const localStorageMiddleware: Middleware = ({ getState }) => {
 };
 
 const reHydrateStore = () => {
-  console.log("123");
   if (localStorage.getItem("applicationState") !== null) {
     return JSON.parse(localStorage.getItem("applicationState") ?? "{}"); // re-hydrate the store
   }
