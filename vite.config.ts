@@ -5,11 +5,14 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  plugins: [react(), sentryVitePlugin({
-    org: "sentry",
-    project: "ds-viewer",
-    url: "https://sentry.yoshino-s.xyz/"
-  })],
+  plugins: [
+    react(),
+    sentryVitePlugin({
+      org: "sentry",
+      project: "ds-viewer",
+      url: "https://sentry.yoshino-s.xyz",
+    }),
+  ],
 
   resolve: {
     alias: {
@@ -18,6 +21,6 @@ export default defineConfig({
   },
 
   build: {
-    sourcemap: true
-  }
+    sourcemap: true,
+  },
 });
