@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 
 import { MantineProvider, createTheme } from "@mantine/core";
 import App from "./App";
+import "./sentry";
 import store from "./store";
 
 import "@mantine/core/styles.css";
