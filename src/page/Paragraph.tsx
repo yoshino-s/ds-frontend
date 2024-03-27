@@ -1,3 +1,4 @@
+import { TitleContext } from "@/component/Header/Header";
 import {
   Badge,
   Container,
@@ -8,6 +9,7 @@ import {
 } from "@mantine/core";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { useContext, useEffect } from "react";
 import { useLoaderData } from "react-router";
 
 import { Link } from "react-router-dom";
@@ -53,7 +55,12 @@ function stripStyles(content: string) {
 dayjs.extend(relativeTime);
 
 export default function ParagraphPage() {
+  const [_title, setTitle] = useContext(TitleContext);
   const paragraph = useLoaderData() as Paragraph;
+
+  useEffect(() => {
+    setTitle(paragraph.title);
+  }, [setTitle, paragraph.title]);
 
   return (
     <Container py="2rem">

@@ -51,6 +51,13 @@ export default function SettingsPage() {
         />
       ),
     },
+    {
+      title: "Made By",
+      description: "Yoshino-s",
+      value: (
+        <a href="https://github.com/yoshino-s">https://github.com/yoshino-s</a>
+      ),
+    },
   ];
 
   return (

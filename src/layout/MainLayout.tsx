@@ -3,6 +3,7 @@ import {
   AppShell,
   Avatar,
   Button,
+  Center,
   Group,
   Text,
   TextInput,
@@ -17,7 +18,7 @@ import { TitleContext } from "@/component/Header/Header";
 import Loading from "@/page/Loading";
 
 import { useForm } from "@mantine/form";
-import { useHeadroom, useWindowScroll } from "@mantine/hooks";
+import { useHeadroom, useMediaQuery, useWindowScroll } from "@mantine/hooks";
 import { IconArrowUp, IconSearch, IconSettings } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 
@@ -26,6 +27,7 @@ export default function MainLayout() {
   const pinned = useHeadroom({ fixedAt: 60 });
 
   const [scroll, scrollTo] = useWindowScroll();
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   const navigate = useNavigate();
 
@@ -56,9 +58,11 @@ export default function MainLayout() {
               <Avatar fw={700} component={Link} to="/">
                 DS
               </Avatar>
-              <Text size="lg" fw={700} ml="sm">
-                {title}
-              </Text>
+              {!isMobile && (
+                <Text size="lg" fw={700} ml="sm">
+                  {title}
+                </Text>
+              )}
             </Group>
 
             <Group>
@@ -75,7 +79,9 @@ export default function MainLayout() {
                 />
               </form>
               <UnstyledButton component={Link} to="/settings">
-                <IconSettings />
+                <Center>
+                  <IconSettings />
+                </Center>
               </UnstyledButton>
             </Group>
           </Group>

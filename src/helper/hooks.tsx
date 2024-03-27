@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { useOptionsState } from "@/store/module/options";
-import { useDebounceCallback } from "@mantine/hooks";
+import { useDebounceCallback, useMediaQuery } from "@mantine/hooks";
 import { merge } from "lodash";
 import { SearchApi } from "./api";
 
@@ -17,6 +17,7 @@ export function usePaginationData<T>(query: ZincQueryForSDK) {
   const [data, setData] = useState<T[]>([]);
   const [take, _] = useState(parseInt(params.get("size") || "10"));
   const [page, setPage] = useState(parseInt(params.get("page") || "1"));
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   const update = useDebounceCallback(async function update() {
     console.log("query", query, page, take, options);
@@ -60,6 +61,7 @@ export function usePaginationData<T>(query: ZincQueryForSDK) {
     page,
     pagination: (
       <Pagination
+        size={isMobile ? "sm" : "md"}
         total={Math.ceil(total / take)}
         onChange={setPage}
         value={page}
