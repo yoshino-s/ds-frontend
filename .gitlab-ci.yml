@@ -1,42 +1,20 @@
-# You can override the included template(s) by including variable overrides
-# SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
-# Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/#customizing-settings
-# Dependency Scanning customization: https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#customizing-the-dependency-scanning-settings
-# Container Scanning customization: https://docs.gitlab.com/ee/user/application_security/container_scanning/#customizing-the-container-scanning-settings
-# Note that environment variables can be set in several places
-# See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
-
-stages:
-  - release
-  - test
-  - deploy
-
+# The Docker image that will be used to build your app
+image: node:18.17.1
+# Functions that should be executed before the build script is run
+before_script:
+  - corepack enable
+  - corepack prepare pnpm@latest-8 --activate
+  - pnpm config set store-dir .pnpm-store
 pages:
-  image: node:18.17.1
-  before_script:
-    - corepack enable
-    - corepack prepare pnpm@latest-8 --activate
-    - pnpm config set store-dir .pnpm-store
   script:
     - pnpm install
     - pnpm build
     - mv dist public
-  cache:
-    key:
-      files:
-        - pnpm-lock.yaml
-    paths:
-      - ".pnpm-store"
   artifacts:
     paths:
+      # The folder that contains the files to be exposed at the Page URL
       - public
   rules:
-    - if: "$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH"
-
-sast:
-  stage: test
-
-include:
-  - template: Security/Dependency-Scanning.gitlab-ci.yml
-  - template: Security/SAST.gitlab-ci.yml
-  - template: Security/Secret-Detection.gitlab-ci.yml
+    # This ensures that only pushes to the default branch will trigger
+    # a pages deploy
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
