@@ -4,6 +4,9 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
+RUN corepack enable &&\
+    corepack prepare pnpm@latest-8 --activate
+
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install
 
