@@ -19,6 +19,7 @@ pages:
   script:
     - pnpm install
     - pnpm build
+    - rm -rf public
     - mv dist public
   artifacts:
     paths:
