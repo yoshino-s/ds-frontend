@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src",
@@ -94,6 +94,7 @@
     "postcss-simple-vars": "^7.0.1",
     "prettier": "^3.2.5",
     "react-router": "^6.22.3",
+    "rollup-plugin-visualizer": "^5.12.0",
     "storybook": "^8.0.2",
     "storybook-dark-mode": "^4.0.1",
     "storybook-react-i18next": "3.0.1",

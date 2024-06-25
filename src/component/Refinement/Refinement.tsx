@@ -97,10 +97,9 @@ export default function Refinement() {
           label="Source"
           clearable
           onChange={(values) => {
-            console.log(values);
-            const old = new Set(currentVal);
-            const new_ = new Set(values);
-            const diff = old.difference(new_).union(new_.difference(old));
+            const diff = values
+              .filter((value) => !currentVal.includes(value))
+              .concat(currentVal.filter((value) => !values.includes(value)));
             diff.forEach((value) => refine(value));
           }}
         />

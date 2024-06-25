@@ -2,16 +2,15 @@
 import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 
-import MainLayout from "@/layout/MainLayout";
-import SearchPage from "@/page/Search";
 import store from "@/store";
 import { markdownToHtml } from "@/utils/remark";
 import { MeiliSearch } from "meilisearch";
 
+const MainLayout = lazy(() => import("@/layout/MainLayout"));
+const SearchPage = lazy(() => import("@/page/Search"));
 const NotFound = lazy(() => import("@/page/Exception/NotFound"));
 const ErrorPage = lazy(() => import("@/page/Exception/ErrorPage"));
 const LoadingPage = lazy(async () => import("@/page/Loading"));
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ParagraphPage = lazy(async () => import("@/page/Paragraph"));
 const SettingsPage = lazy(async () => import("@/page/Settings"));
 
