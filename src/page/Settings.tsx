@@ -5,7 +5,11 @@ import { TitleContext } from "@/component/Header/Header";
 import { ThemeSetting } from "@/component/Settings/Theme";
 import store from "@/store";
 import { useOptionsState } from "@/store/module/options";
-import { setS3Url, setZincsearchUrl } from "@/store/reducer/options";
+import {
+  setMeilisearchToken,
+  setMeilisearchUrl,
+  setS3Url,
+} from "@/store/reducer/options";
 
 interface SettingItem {
   title: string;
@@ -40,13 +44,25 @@ export default function SettingsPage() {
       ),
     },
     {
-      title: "Zincsearch URL",
-      description: "The URL of your Zincsearch instance",
+      title: "Meilisearch URL",
+      description: "The URL of your Meilisearch instance",
       value: (
         <TextInput
-          value={options.zincsearchUrl}
+          value={options.meilisearchUrl}
           onChange={(e) => {
-            store.dispatch(setZincsearchUrl(e.currentTarget.value));
+            store.dispatch(setMeilisearchUrl(e.currentTarget.value));
+          }}
+        />
+      ),
+    },
+    {
+      title: "Meilisearch Token",
+      description: "The token of your Meilisearch instance",
+      value: (
+        <TextInput
+          value={options.meilisearchToken}
+          onChange={(e) => {
+            store.dispatch(setMeilisearchToken(e.currentTarget.value));
           }}
         />
       ),

@@ -8,47 +8,33 @@ dayjs.extend(relativeTime);
 export function ParagraphCard({
   cover,
   title,
-  "@timestamp": time,
+  time,
   author,
   tags,
-  _id,
+  id,
 }: Paragraph) {
-  const url = `/paragraph/${_id}`;
+  const url = `/paragraph/${id}`;
   return (
     <Card withBorder radius="md" padding="lg" shadow="sm">
       <Card.Section>
-        <Link to={url}>
+        <Link to={url} target="_blank">
           {cover && <Image src={cover} height={140} width={140} />}
         </Link>
       </Card.Section>
       <Group justify="space-between" mt="md" mb="xs">
-        <Text component={Link} to={url}>
+        <Text component={Link} to={url} target="_blank">
           {title}
         </Text>
         <Group>
           {tags.map((tag, index) => (
-            <>
-              <Badge
-                component={Link}
-                key={index}
-                to={`/tag/${encodeURIComponent(tag)}`}
-              >
-                {tag}
-              </Badge>
-            </>
+            <Badge key={index}>{tag}</Badge>
           ))}
         </Group>
       </Group>
 
       <Group>
         <Group>
-          <Text
-            size="xs"
-            component={Link}
-            to={`/author/${encodeURIComponent(author)}`}
-          >
-            {author}
-          </Text>
+          <Text size="xs">{author}</Text>
         </Group>
         <Text size="xs" c="dimmed">
           •

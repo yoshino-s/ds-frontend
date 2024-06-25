@@ -1,6 +1,6 @@
 declare interface Paragraph {
-  _id: string;
-  "@timestamp": string;
+  id: string;
+  time: string;
   content: string;
   markdown: string;
   title: string;

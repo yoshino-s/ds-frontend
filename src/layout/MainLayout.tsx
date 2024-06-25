@@ -1,55 +1,69 @@
+import SearchBox from "@/component/SearchBox/SearchBox";
 import {
-  Affix,
   AppShell,
   Avatar,
-  Button,
   Center,
   Group,
-  Text,
-  TextInput,
-  Transition,
-  UnstyledButton,
   rem,
+  UnstyledButton,
 } from "@mantine/core";
-import { Suspense, useCallback, useState } from "react";
-import { Outlet, useNavigate } from "react-router";
+import { Suspense, useEffect, useState } from "react";
+import { Outlet, useLocation } from "react-router";
 
-import { TitleContext } from "@/component/Header/Header";
+import ScrollTop from "@/component/ScrollTop/ScrollTop";
 import Loading from "@/page/Loading";
 
-import { useForm } from "@mantine/form";
-import { useHeadroom, useMediaQuery, useWindowScroll } from "@mantine/hooks";
-import { IconArrowUp, IconSearch, IconSettings } from "@tabler/icons-react";
+import { useHeadroom } from "@mantine/hooks";
+import { IconSettings } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 
+import { useAppSelector } from "@/store";
+import {
+  instantMeiliSearch,
+  InstantMeiliSearchInstance,
+} from "@meilisearch/instant-meilisearch";
+import { InstantSearch } from "react-instantsearch";
+
+import { singleIndex } from "instantsearch.js/es/lib/stateMappings";
+
 export default function MainLayout() {
-  const [title, setTitle] = useState("");
   const pinned = useHeadroom({ fixedAt: 60 });
+  const selector = useAppSelector((state) => state.options);
 
-  const [scroll, scrollTo] = useWindowScroll();
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const path = useLocation().pathname;
 
-  const navigate = useNavigate();
+  const isSearchPage = path === "/";
 
-  const form = useForm({
-    initialValues: {
-      search: "",
-    },
-  });
+  const [searchClient, setSearchClient] =
+    useState<InstantMeiliSearchInstance>();
 
-  const search = useCallback(
-    function submit({ search }: { search: string }) {
-      console.log(search);
-      navigate(`/search/${encodeURIComponent(search)}`);
-    },
-    [navigate],
-  );
+  useEffect(() => {
+    const { meilisearchUrl, meilisearchToken } = selector;
+    const { searchClient } = instantMeiliSearch(
+      meilisearchUrl,
+      meilisearchToken,
+      {
+        finitePagination: true,
+        meiliSearchParams: {
+          hybrid: {},
+          attributesToRetrieve: [
+            "cover",
+            "title",
+            "time",
+            "author",
+            "tags",
+            "id",
+          ],
+        },
+      },
+    );
+    setSearchClient(searchClient);
+  }, [selector, setSearchClient]);
 
-  return (
-    <TitleContext.Provider value={[title, setTitle]}>
+  const shell = (
+    <>
       <AppShell
         header={{ height: 60, collapsed: !pinned, offset: false }}
-        padding="md"
         h="100vh"
       >
         <AppShell.Header>
@@ -58,26 +72,9 @@ export default function MainLayout() {
               <Avatar fw={700} component={Link} to="/">
                 DS
               </Avatar>
-              {!isMobile && (
-                <Text size="lg" fw={700} ml="sm">
-                  {title}
-                </Text>
-              )}
             </Group>
-
             <Group>
-              <form onSubmit={form.onSubmit(search)}>
-                <TextInput
-                  placeholder="Search"
-                  {...form.getInputProps("search")}
-                  leftSection={
-                    <IconSearch
-                      style={{ width: rem(16), height: rem(16) }}
-                      stroke={1.5}
-                    />
-                  }
-                />
-              </form>
+              {isSearchPage && <SearchBox />}
               <UnstyledButton component={Link} to="/settings">
                 <Center>
                   <IconSettings />
@@ -92,21 +89,26 @@ export default function MainLayout() {
           </Suspense>
         </AppShell.Main>
       </AppShell>
-      <Affix position={{ bottom: 20, right: 20 }}>
-        <Transition transition="slide-up" mounted={scroll.y > 0}>
-          {(transitionStyles) => (
-            <Button
-              leftSection={
-                <IconArrowUp style={{ width: rem(16), height: rem(16) }} />
-              }
-              style={transitionStyles}
-              onClick={() => scrollTo({ y: 0 })}
-            >
-              Scroll to top
-            </Button>
-          )}
-        </Transition>
-      </Affix>
-    </TitleContext.Provider>
+      <ScrollTop />
+    </>
+  );
+
+  return (
+    <>
+      {searchClient &&
+        (isSearchPage ? (
+          <InstantSearch
+            searchClient={searchClient!}
+            indexName="paragraph"
+            routing={{
+              stateMapping: singleIndex("paragraph"),
+            }}
+          >
+            {shell}
+          </InstantSearch>
+        ) : (
+          shell
+        ))}
+    </>
   );
 }

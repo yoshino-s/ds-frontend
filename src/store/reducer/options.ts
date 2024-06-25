@@ -1,29 +1,35 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export interface OptionsState {
-  zincsearchUrl: string;
+  meilisearchUrl: string;
+  meilisearchToken: string;
   s3Url: string;
 }
 
-const ZINCSEARCH_URL = "https://zincsearch.yoshino-s.xyz";
-const MINIO_URL = "https://minio-hdd.yoshino-s.xyz";
+const initialState: OptionsState = {
+  meilisearchUrl: "https://meilisearch.yoshino-s.xyz/",
+  meilisearchToken:
+    "a568afad53a4dd124c508b9acd26ec35ff65665c07020913533cd7b176a28a04",
+  s3Url: "https://minio-hdd.yoshino-s.xyz",
+};
 
 const optionsSlice = createSlice({
   name: "stats",
-  initialState: {
-    zincsearchUrl: ZINCSEARCH_URL,
-    s3Url: MINIO_URL,
-  } as OptionsState,
+  initialState,
   reducers: {
-    setZincsearchUrl: (state, action: PayloadAction<string | undefined>) => {
-      state.zincsearchUrl = action.payload ?? ZINCSEARCH_URL;
+    setMeilisearchUrl: (state, action: PayloadAction<string | undefined>) => {
+      state.meilisearchUrl = action.payload ?? initialState.meilisearchUrl;
+    },
+    setMeilisearchToken: (state, action: PayloadAction<string | undefined>) => {
+      state.meilisearchToken = action.payload ?? initialState.meilisearchToken;
     },
     setS3Url: (state, action: PayloadAction<string | undefined>) => {
-      state.s3Url = action.payload ?? MINIO_URL;
+      state.s3Url = action.payload ?? initialState.s3Url;
     },
   },
 });
 
-export const { setS3Url, setZincsearchUrl } = optionsSlice.actions;
+export const { setS3Url, setMeilisearchUrl, setMeilisearchToken } =
+  optionsSlice.actions;
 
 export default optionsSlice.reducer;
