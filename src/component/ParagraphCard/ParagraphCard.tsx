@@ -1,3 +1,4 @@
+import { useContextFix } from "@/hooks/useContentFix";
 import { Badge, Card, Group, Image, Text } from "@mantine/core";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -14,6 +15,8 @@ export function ParagraphCard({
   id,
 }: Paragraph) {
   const url = `/paragraph/${id}`;
+  cover = useContextFix(cover);
+
   return (
     <Card withBorder radius="md" padding="lg" shadow="sm">
       <Card.Section>

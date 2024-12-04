@@ -1,3 +1,4 @@
+import { useContextFix } from "@/hooks/useContentFix";
 import {
   Badge,
   Container,
@@ -54,9 +55,10 @@ dayjs.extend(relativeTime);
 
 export default function ParagraphPage() {
   const paragraph = useLoaderData() as Paragraph;
-  console.log(paragraph);
 
-  const content = stripStyles(paragraph.content);
+  let content = stripStyles(paragraph.content);
+
+  content = useContextFix(content);
 
   return (
     <Container py="2rem">
