@@ -15,7 +15,7 @@ export function ParagraphCard({
   id,
 }: Paragraph) {
   const url = `/paragraph/${id}`;
-  cover = useContextFix(cover);
+  cover = useContextFix(cover) ?? "";
 
   return (
     <Card withBorder radius="md" padding="lg" shadow="sm">
