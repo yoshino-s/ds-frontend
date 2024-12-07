@@ -6,15 +6,16 @@ import optionsReducer from "./reducer/options";
 const localStorageMiddleware: Middleware = ({ getState }) => {
   return (next) => (action) => {
     const result = next(action);
-    console.log(result);
-    localStorage.setItem("applicationState", JSON.stringify(getState()));
+    const state = getState();
+    localStorage.setItem("applicationState", JSON.stringify(state));
     return result;
   };
 };
 
 const reHydrateStore = () => {
   if (localStorage.getItem("applicationState") !== null) {
-    return JSON.parse(localStorage.getItem("applicationState") ?? "{}"); // re-hydrate the store
+    const state: any = JSON.parse(localStorage.getItem("applicationState") ?? "{}");
+    return state;// re-hydrate the store
   }
 };
 

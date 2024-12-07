@@ -17,7 +17,10 @@ import {
   useSortBy,
 } from "react-instantsearch";
 
-const sortItems = [{ value: "paragraph:time:desc", label: "Newest" }];
+const sortItems = [
+  { value: "paragraph:time:desc", label: "Newest" },
+  { value: "paragraph:time:asc", label: "Oldest" },
+];
 const hitsPerPageItems = [
   { value: 20, label: "20", default: true },
   { value: 40, label: "40" },

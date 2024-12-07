@@ -45,7 +45,6 @@ export default function MainLayout() {
       {
         finitePagination: true,
         meiliSearchParams: {
-          hybrid: {},
           attributesToRetrieve: [
             "cover",
             "title",
@@ -83,7 +82,7 @@ export default function MainLayout() {
             </Group>
           </Group>
         </AppShell.Header>
-        <AppShell.Main pt={`calc(${rem(60)} + var(--mantine-spacing-md))`}>
+        <AppShell.Main pt={`calc(${rem(60)} + var(--mantine-spacing-md))`} pb={rem(60)}>
           <Suspense fallback={<Loading />}>
             <Outlet />
           </Suspense>
