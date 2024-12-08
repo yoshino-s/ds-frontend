@@ -19,7 +19,7 @@ import { ThemeSetting } from "@/component/Settings/Theme";
 import { disableSentry } from "@/sentry";
 import store from "@/store";
 import { useOptionsState } from "@/store/module/options";
-import { setMeilisearchToken, setMeilisearchUrl, setS3Url } from "@/store/reducer/options";
+import { setEnableHybridSearch, setMeilisearchToken, setMeilisearchUrl, setS3Url } from "@/store/reducer/options";
 import { useLocalStorage } from "@mantine/hooks";
 import { IconBrandGithub, IconMail } from "@tabler/icons-react";
 import { Meilisearch } from "meilisearch";
@@ -106,6 +106,22 @@ export default function SettingsPage() {
                 const v = value.currentTarget.checked;
                 setSentryDisabled(v);
                 disableSentry(v);
+              }}
+            />
+          </div>
+        )
+      },
+      {
+        title: "Enable Hybrid Search",
+        description: "Enable hybrid search for Meilisearch",
+        value: (
+          <div>
+            <Switch
+              size="md"
+              checked={options.enableHybridSearch}
+              onChange={(value) => {
+                const v = value.currentTarget.checked;
+                store.dispatch(setEnableHybridSearch(v));
               }}
             />
           </div>

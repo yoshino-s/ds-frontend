@@ -4,6 +4,7 @@ export interface OptionsState {
   meilisearchUrl: string;
   meilisearchToken: string;
   s3Url: string;
+  enableHybridSearch?: boolean;
 }
 
 const initialState: OptionsState = {
@@ -11,6 +12,7 @@ const initialState: OptionsState = {
   meilisearchToken:
     "a568afad53a4dd124c508b9acd26ec35ff65665c07020913533cd7b176a28a04",
   s3Url: "https://minio-hdd.yoshino-s.xyz/",
+  enableHybridSearch: true,
 };
 
 const optionsSlice = createSlice({
@@ -26,10 +28,16 @@ const optionsSlice = createSlice({
     setS3Url: (state, action: PayloadAction<string | undefined>) => {
       state.s3Url = action.payload ?? initialState.s3Url;
     },
+    setEnableHybridSearch: (
+      state,
+      action: PayloadAction<boolean | undefined>
+    ) => {
+      state.enableHybridSearch = action.payload ?? initialState.enableHybridSearch;
+    }
   },
 });
 
-export const { setS3Url, setMeilisearchUrl, setMeilisearchToken } =
+export const { setS3Url, setMeilisearchUrl, setMeilisearchToken, setEnableHybridSearch } =
   optionsSlice.actions;
 
 export default optionsSlice.reducer;

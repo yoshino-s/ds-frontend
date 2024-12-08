@@ -38,13 +38,14 @@ export default function MainLayout() {
     useState<InstantMeiliSearchInstance>();
 
   useEffect(() => {
-    const { meilisearchUrl, meilisearchToken } = selector;
+    const { meilisearchUrl, meilisearchToken, enableHybridSearch } = selector;
     const { searchClient } = instantMeiliSearch(
       meilisearchUrl,
       meilisearchToken,
       {
         finitePagination: true,
         meiliSearchParams: {
+          hybrid: enableHybridSearch ? ({} as any) : undefined,
           attributesToRetrieve: [
             "cover",
             "title",
