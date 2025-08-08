@@ -56,7 +56,7 @@ export default function SettingsPage() {
     try {
       new URL(v.s3Url, location.origin);
       form.clearFieldError("s3Url");
-    } catch (e) {
+    } catch {
       form.setFieldError("s3Url", "Invalid Minio URL");
     }
 
@@ -69,7 +69,7 @@ export default function SettingsPage() {
       setMeilisearchVersion(version.pkgVersion);
       form.clearFieldError("meilisearchUrl");
       form.clearFieldError("meilisearchToken");
-    } catch (e) {
+    } catch {
       form.setFieldError("meilisearchUrl", "Invalid Meilisearch URL");
       form.setFieldError("meilisearchToken", "Invalid Meilisearch Token");
     }
