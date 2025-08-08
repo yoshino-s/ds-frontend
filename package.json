@@ -33,8 +33,6 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@react-router/node": "^7.6.3",
     "@react-router/serve": "^7.6.3",
-    "@sentry/react": "^9.33.0",
-    "@sentry/react-router": "^9.33.0",
     "@tanstack/react-query": "^5.81.5",
     "@types/canvas-confetti": "^1.9.0",
     "@types/sarif": "^2.1.7",
@@ -112,7 +110,6 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "@sentry/cli",
       "es5-ext",
       "esbuild",
       "unrs-resolver"
