@@ -1,72 +1,40 @@
-import { sentryVitePlugin } from "@sentry/vite-plugin";
-import { resolve } from "path";
+import { reactRouter } from "@react-router/dev/vite";
+import {
+  type SentryReactRouterBuildOptions,
+  sentryReactRouter,
+} from "@sentry/react-router";
+import { defineConfig } from "vite";
+import devtoolsJson from "vite-plugin-devtools-json";
+import tsconfigPaths from "vite-tsconfig-paths";
 
-import react from "@vitejs/plugin-react";
-import { visualizer } from "rollup-plugin-visualizer";
-import { defineConfig, splitVendorChunkPlugin } from "vite";
+const sentryConfig: SentryReactRouterBuildOptions = {
+  telemetry: false,
+  project: "devsecops_ssl-op-demo-new",
+  sourceMapsUploadOptions: {
+    filesToDeleteAfterUpload: [],
+  },
+  // An auth token is required for uploading source maps.
+  authToken:
+    "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",
+};
 
 export default defineConfig({
+  appType: "spa",
   server: {
-    headers: {
-      "Document-Policy": "js-profiling",
-    },
+    cors: true,
   },
-
   plugins: [
-    react(),
-    splitVendorChunkPlugin(),
-    visualizer({
-      gzipSize: true,
-      brotliSize: true,
-      emitFile: false,
-      filename: "stats.html",
-      open: true,
-    }),
-    sentryVitePlugin({
-      org: "sentry",
-      project: "ds-viewer",
-      url: "https://sentry.yoshino-s.xyz",
+    reactRouter(),
+    devtoolsJson(),
+    tsconfigPaths(),
+    sentryReactRouter(sentryConfig, {
+      command: "build",
+      mode: "production",
     }),
   ],
-
-  resolve: {
-    alias: {
-      "@/": `${resolve(__dirname, "src")}/`,
-    },
-  },
-
   build: {
     sourcemap: true,
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes("@mantine")) {
-            return "@mantine";
-          }
-          if (id.includes("@sentry")) {
-            return "@sentry";
-          }
-          if (
-            id.includes("react-router-dom") ||
-            id.includes("@remix-run") ||
-            id.includes("react-router")
-          ) {
-            return "@react-router";
-          }
-          if (id.includes("highlight.js")) {
-            return "highlight.js";
-          }
-          if (
-            id.includes("remark") ||
-            id.includes("rehype") ||
-            id.includes("unified") ||
-            id.includes("mdast") ||
-            id.includes("micromark")
-          ) {
-            return "@rehype";
-          }
-        },
-      },
-    },
+    assetsDir: "static",
+    manifest: true,
   },
 });

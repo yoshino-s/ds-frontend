@@ -1,0 +1,7 @@
+@layer mantine-core, mantine-dates, mantine-datatable, mantine-contextmenu, mantine-notifications, mantine-spotlight, mantine-split-pane;
+@import "@mantine/core/styles.css" layer(mantine-core);
+@import "@mantine/dates/styles.css" layer(mantine-dates);
+@import "mantine-datatable/styles.css" layer(mantine-datatable);
+@import "mantine-contextmenu/styles.css" layer(mantine-contextmenu);
+@import "@mantine/notifications/styles.css" layer(mantine-notifications);
+@import "@mantine/spotlight/styles.css" layer(mantine-spotlight);

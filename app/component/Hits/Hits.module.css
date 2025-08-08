@@ -1,0 +1,29 @@
+.img-wrapper{
+  column-count: 1;
+  column-gap: 10px;
+
+  @media screen and (min-width: 500px) {
+    column-count: 2;
+  }
+  @media screen and (min-width: 720px) {
+    column-count: 3;
+  }
+  @media screen and (min-width: 1100px) {
+    column-count: 5;
+  }
+  
+  counter-reset: count;
+  margin: 0 auto;
+  
+  @media (max-width: $mantine-breakpoint-md) {
+    column-count: 2;
+  }
+  @media (max-width: $mantine-breakpoint-sm) {
+    column-count: 1;
+  }
+
+  &>div{
+    position: relative;
+    margin-bottom: 10px;
+  }
+}
