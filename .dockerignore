@@ -45,14 +45,6 @@ README.md
 LICENCE
 *.md
 
-# 配置文件
-.eslintrc*
-.prettierrc*
-tsconfig*.json
-vite.config.ts
-postcss.config.cjs
-react-router.config.ts
-
 # 测试文件
 __tests__/
 **/*.test.*
