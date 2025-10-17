@@ -72,7 +72,7 @@ export default function ParagraphPage() {
       if (paragraph.markdown) {
         paragraph.content = await markdownToHtml(paragraph.content);
         paragraph.content = stripStyles(paragraph.content)?.replace(
-          /https?:\/\/(?:minio-hdd)\.yoshino-s\.(?:online|xyz)\//g,
+          /https?:\/\/minio-hdd\.yoshino-s\.(?:online|xyz)\/crawl\//g,
           s3Url,
         );
         console.log(paragraph.content);

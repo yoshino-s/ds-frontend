@@ -11,7 +11,7 @@ const useConfigStore = create(
           meilisearchUrl: "https://meilisearch.yoshino-s.xyz/",
           meilisearchToken:
             "70014cdf1f1fb94b6ed420e11abf2e74e0dfa7bc00ddd77f213599c50bd1e26f",
-          s3Url: "https://minio-hdd.yoshino-s.xyz/",
+          s3Url: "https://minio-hdd.yoshino-s.xyz/crawl/",
           enableHybridSearch: false,
         },
         (set) => ({
