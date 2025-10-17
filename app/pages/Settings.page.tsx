@@ -74,7 +74,7 @@ export default function SettingsPage() {
       form.setFieldError("meilisearchToken", "Invalid Meilisearch Token");
     }
 
-    if (form.errors.length !== 0) {
+    if (Object.keys(form.errors).length !== 0) {
       return;
     }
 

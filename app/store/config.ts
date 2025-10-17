@@ -12,7 +12,7 @@ const useConfigStore = create(
           meilisearchToken:
             "70014cdf1f1fb94b6ed420e11abf2e74e0dfa7bc00ddd77f213599c50bd1e26f",
           s3Url: "https://minio-hdd.yoshino-s.xyz/",
-          enableHybridSearch: true,
+          enableHybridSearch: false,
         },
         (set) => ({
           setMeilisearchUrl: (url: string | undefined) =>
